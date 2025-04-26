@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>   : Student Grade Management System : </title>
+    <style>
+        body {
+            color: black;
+            margin: 0;
+            padding: 0;
+            
+        }
+        h2 {
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+            font-size: 40px;
+            background-color: rgb(15, 224, 207);
+            width: 100%;
+            border: 2px solid black;
+        }
+        
+        table {
+            width: 100%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            color: black;
+            text-align: center;
+            background-color: lightcyan;
+            font-size: 25px;
+        }
+        th {
+            background: rgba(46, 46, 186, 0.4);
+        }
+        .toppers {
+            margin: 20px auto;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;border: 2px solid black; font-size: 70px;background-color: rgb(19, 248, 237); display: flex;font-style: italic;border: 2pxsolid black; align-items: center; justify-content: center; gap: 20px; padding: 10px;">
+        <img src="static\\college_logo\\college_logo.png" style="height: 100px; width: 150px;">
+        <span style="color: navy;font: size 250px;">Sree Navodaya Academy & Junior College</span>
+    </h1>
+    <h2>Student Grade Management System</h2>
+    <div style="margin-bottom: 20px; padding: 15px; text-align: center; border-radius: 8px;">
+        <a href="/add" 
+           style="padding: 10px; font-size: 16px; width: 250px; margin-right: 10px; border-radius: 5px; 
+                  background-color: royalblue; color: white; text-decoration: none; display: inline-block; text-align: center;">
+           Add Student
+        </a>
+      
+        <a href="/logout" 
+           style="padding: 10px; font-size: 16px; width: 250px; margin-right: 10px; border-radius: 5px;
+                  background-color: crimson; color: white; text-decoration: none; display: inline-block; text-align: center;">
+           Logout
+        </a>
+    </div>
+      
+    
+    <div style="text-align: center; margin-bottom: 20px;">
+        <form method="GET" action="/home">
+           
+            <div style="text-align: center; margin-bottom: 20px; padding: 15px; border-radius: 8px;">
+                <input type="text" name="search_name" placeholder="Search by Name" style="padding: 10px; font-size: 16px; width: 250px; margin-right: 10px; border-radius: 5px;">
+                <input type="text" name="search_class" placeholder="Search by Year" style="padding: 10px; font-size: 16px; width: 250px; margin-right: 10px; border-radius: 5px;">
+                <input type="text" name="search_hallticket" placeholder="Search by hallticket" style="padding: 10px; font-size: 16px; width: 250px; margin-right: 10px; border-radius: 5px;">
+                <button type="submit" style="padding: 10px 20px; font-size: 16px; background-color: rgb(35, 35, 160); color: white; border: none; border-radius: 5px; font-weight: bold;">Search</button>
+           </div>
+              
+        </form>
+    </div>
+      
+ <table id="studentTable">
+        <tr>
+            <th>Hall Ticket</th>
+            <th>Name</th>
+            <th>Class</th>
+            <th>English</th>
+            <th>Math</th>
+            <th>Science</th>
+            <th>Social</th>
+            <th>Hindi</th>
+            <th>Computer</th>
+            <th>Total</th>
+            <th>Grade</th>
+            <th>Result</th>
+            <th>Actions</th>
+        </tr>
+    
+        {% for student in students %}
+        
+        <tr>
+            <td>{{ student['hallticket'] }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ student.class }}</td>
+            <td>{{ student.marks.English }}</td>
+            <td>{{ student.marks.Math }}</td>
+            <td>{{ student.marks.Science }}</td>
+            <td>{{ student.marks.Social }}</td>
+            <td>{{ student.marks.Hindi }}</td>
+            <td>{{ student.marks.Computer }}</td>
+            <td>{{ student.total }}</td>
+            <td>{{ student.grade }}</td>
+            <td>{{ student.result }}</td>
+            <td>
+                <a href="/edit/{{ loop.index0 }}">Edit</a> |
+                <a href="/delete/{{ loop.index0 }}" onclick="return confirm('Delete this student?')">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>  
+
+   <div class="excel-btn">
+        <button onclick="exportTableToExcel('studentTable')">Export to Excel</button>
+    </div>
+    <div class="toppers">
+            
+        <h3>🏆 Class-wise Toppers</h3>
+        <table border="1" style="width: 100%;">
+            <tr>
+                <th>Hall Ticket</th>
+                <th>Class</th>
+                <th>Name</th>
+                <th>Subjects</th>
+                <th>Total</th>
+                <th>Grade</th>
+                <th>Result</th>
+            </tr>
+            {% for cls, student in toppers.items() %}
+            <tr>
+                <td>{{ student['hallticket'] }}</td>
+                <td>{{ cls }}</td>
+                <td>{{ student.name }}</td>
+                <td>
+                    English: {{ student.marks.English }}<br>
+                    Math: {{ student.marks.Math }}<br>
+                    Science: {{ student.marks.Science }}<br>
+                    Social: {{ student.marks.Social }}<br>
+                    Hindi: {{ student.marks.Hindi }}<br>
+                    Computer: {{ student.marks.Computer }}
+                </td>
+                <td>{{ student.total }}</td>
+                <td>{{ student.grade }}</td>
+                <td>{{ student.result }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        
+    </div>
+  
+    <script>
+        function exportTableToExcel(tableID, filename = 'student_data.xls') {
+            var table = document.getElementById(tableID);
+            var html = table.outerHTML.replace(/ /g, '%20');
+    
+            var link = document.createElement('a');
+            link.href = 'data:application/vnd.ms-excel,' + html;
+            link.download = filename;
+            link.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student</title>
+    <style>
+        body {
+            background: url("/static/images/result_bg.jpg") no-repeat center center fixed;
+            background-size: cover;
+            font-family: Arial;
+            color: #fff;
+        }
+        .form-box {
+            background: rgba(0,0,0,0.7);
+            width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+        }
+        input, select {
+            width: 100%;
+            margin: 10px 0;
+            padding: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background: #28a745;
+            border: none;
+            color: white;
+            border-radius: 5px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-box">
+        <h2>Add Student</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Student Name" required>
+            <input type="text" name="hallticket" placeholder="Hall Ticket Number" required>
+            
+            <select name="class" required>
+                <option value="">Select Class & Group</option>
+                <option value="Inter 1st year - MPC">Inter 1st year - MPC</option>
+                <option value="Inter 1st year - BIPC">Inter 1st year - BIPC</option>
+                <option value="Inter 1st year - MEC">Inter 1st year - MEC</option>
+                <option value="Inter 1st year - MPCS">Inter 1st year - MPCS</option>
+                <option value="Inter 2nd year - MPC">Inter 2nd year - MPC</option>
+                <option value="Inter 2nd year - BIPC">Inter 2nd year - BIPC</option>
+                <option value="Inter 2nd year - MEC">Inter 2nd year - MEC</option>
+                <option value="Inter 2nd year - MPCS">Inter 2nd year - MPCS</option>
+            </select>
+            <input type="number" name="English" placeholder="English Marks" required>
+            <input type="number" name="Math" placeholder="Math Marks" required>
+            <input type="number" name="Science" placeholder="Science Marks" required>
+            <input type="number" name="Social" placeholder="Social Marks" required>
+            <input type="number" name="Hindi" placeholder="Hindi Marks" required>
+            <input type="number" name="Computer" placeholder="Computer Marks" required>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>
